@@ -1,3 +1,4 @@
+import 'package:enzet/app/data/bindings/auth_binding.dart';
 import 'package:enzet/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,7 @@ void main() async {
     GetMaterialApp(
       title: "Enzet",
       initialRoute: AppPages.INITIAL,
+      initialBinding: AuthBinding(),
       theme: AppTheme.lightTheme,
       getPages: AppPages.routes,
       debugShowCheckedModeBanner: false,

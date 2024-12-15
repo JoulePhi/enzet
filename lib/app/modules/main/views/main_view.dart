@@ -33,7 +33,7 @@ class MainView extends GetView<NavigationController> {
               _buildPageNavigator(0, Routes.HOME),
               _buildPageNavigator(1, Routes.PRODUCTS),
               _buildPageNavigator(2, Routes.INSERT),
-              _buildPageNavigator(3, Routes.HISTORY),
+              _buildPageNavigator(3, Routes.PROFILE),
             ],
           ),
         ),
@@ -61,8 +61,8 @@ class MainView extends GetView<NavigationController> {
 
               /// Profile
               SalomonBottomBarItem(
-                icon: const Icon(Icons.history),
-                title: const Text("History"),
+                icon: const Icon(Icons.person),
+                title: const Text("Profile"),
                 selectedColor: Colors.teal,
               ),
             ],

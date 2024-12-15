@@ -39,6 +39,9 @@ dependencies:
   cloud_firestore: ^5.4.4
   google_fonts: ^6.2.1
   salomon_bottom_bar: ^3.3.2
+  firebase_auth: ^5.3.4
+  shared_preferences: ^2.3.3
+  dotted_border: ^2.1.0
 
 dev_dependencies:
   flutter_test:
