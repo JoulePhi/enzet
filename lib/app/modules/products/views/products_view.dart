@@ -47,21 +47,36 @@ class ProductsView extends GetView<ProductsController> {
               ),
             ),
             verticalSpace(AppStyle.largePadding),
-            const ProductCard(
-                image: 'assets/images/product1.webp',
-                title: 'Dompet Kulit',
-                total: '20',
-                code: 'NKC644'),
-            const ProductCard(
-                image: 'assets/images/product1.webp',
-                title: 'Dompet Kulit',
-                total: '20',
-                code: 'NKC644'),
-            const ProductCard(
-                image: 'assets/images/product1.webp',
-                title: 'Dompet Kulit',
-                total: '20',
-                code: 'NKC644'),
+            Obx(
+              () => controller.isLoading.value
+                  ? const Center(child: CircularProgressIndicator())
+                  : (controller.items.isEmpty
+                      ? const Center(child: Text('No data'))
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: controller.items.length,
+                          itemBuilder: (context, index) {
+                            final item = controller.items[index];
+                            return ProductCard(item: item);
+                          },
+                        )),
+            ),
+            // const ProductCard(
+            //     image: 'assets/images/product1.webp',
+            //     title: 'Dompet Kulit',
+            //     total: '20',
+            //     code: 'NKC644'),
+            // const ProductCard(
+            //     image: 'assets/images/product1.webp',
+            //     title: 'Dompet Kulit',
+            //     total: '20',
+            //     code: 'NKC644'),
+            // const ProductCard(
+            //     image: 'assets/images/product1.webp',
+            //     title: 'Dompet Kulit',
+            //     total: '20',
+            //     code: 'NKC644'),
           ],
         ),
       ),

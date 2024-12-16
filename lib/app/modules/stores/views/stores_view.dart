@@ -10,11 +10,6 @@ class StoresView extends GetView<StoresController> {
   const StoresView({super.key});
   @override
   Widget build(BuildContext context) {
-    List<StoreModel> stores = [
-      StoreModel(id: 1, name: 'Enzet', code: 'en', isSelected: false),
-      StoreModel(id: 2, name: 'Poppins', code: 'en', isSelected: false),
-      StoreModel(id: -1, name: 'add', code: '-', isSelected: false),
-    ];
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pilih Toko'),
@@ -22,58 +17,90 @@ class StoresView extends GetView<StoresController> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Stack(
+          // Changed from Column to Stack
           children: [
-            const Text(
-              'Pilih Toko yang akan diakses',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 1.5,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Pilih Toko yang akan diakses',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                itemCount: stores.length,
-                itemBuilder: (context, index) {
-                  return Obx(
-                    () => StoreCard(
-                      store: stores[index],
-                      isSelected:
-                          controller.selectedStore.value == stores[index].id,
-                      onTap: () {
-                        // setState(() {
-                        //   languages[index].isSelected =
-                        //       !languages[index].isSelected;
-                        // });
-                        if (stores[index].name == 'add' &&
-                            stores[index].code == '-') {
-                          _showAddLanguageDialog(context);
-                        } else {
-                          // controller.selectedStore.value = stores[index].id;
-                          Get.toNamed(Routes.MAIN);
-                        }
-                      },
+                const SizedBox(height: 20),
+                Expanded(
+                  child: Obx(
+                    () => controller.stores.isEmpty
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10,
+                              childAspectRatio: 1.5,
+                            ),
+                            itemCount: controller.stores.length,
+                            itemBuilder: (context, index) {
+                              return Obx(() => StoreCard(
+                                    store: controller.stores[index],
+                                    isSelected:
+                                        controller.selectedStore.value ==
+                                            controller.stores[index].id,
+                                    onTap: () {
+                                      if (controller.stores[index].name ==
+                                              'add' &&
+                                          controller.stores[index].code ==
+                                              '-') {
+                                        showAddStoreDialog(context);
+                                      } else {
+                                        if (controller.selectedStore.value !=
+                                            controller.stores[index].id) {
+                                          controller.selectedStore.value =
+                                              controller.stores[index].id;
+                                        } else {
+                                          controller.selectedStore.value = 0;
+                                        }
+                                      }
+                                    },
+                                  ));
+                            },
+                          ),
+                  ),
+                ),
+              ],
+            ),
+            Obx(
+              () => AnimatedPositioned(
+                bottom: controller.selectedStore.value != 0 ? 0 : -100,
+                left: 0,
+                right: 0,
+                duration: const Duration(milliseconds: 100),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(16),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Get.offAllNamed(Routes.MAIN, arguments: {
+                        'storeId': controller.selectedStore.value,
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(double.infinity, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
-                  );
-                },
+                    child: const Text('Continue'),
+                  ),
+                ),
               ),
             ),
-            // add continue button
-
-            // ElevatedButton(
-            //   onPressed: () {
-            //     // Get.toNamed(Routes.HOME);
-            //   },
-            //   child: const Text('Continue'),
-            // ),
           ],
         ),
       ),
@@ -81,63 +108,101 @@ class StoresView extends GetView<StoresController> {
   }
 }
 
-void _showAddLanguageDialog(BuildContext context) {
-  String newLanguageName = '';
-  String newLanguageCode = '';
+Future<void> showAddStoreDialog(BuildContext context) {
+  // Controller untuk form
+  final nameController = TextEditingController();
+  final codeController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  String? selectedImagePath;
 
-  showDialog(
+  return showDialog(
     context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text('Add New Language'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              decoration: const InputDecoration(
-                labelText: 'Language Name',
-                hintText: 'Enter language name',
+    builder: (context) => AlertDialog(
+      title: const Text('Tambah Store'),
+      content: Form(
+        key: formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Form field untuk nama
+              TextFormField(
+                controller: nameController,
+                decoration: const InputDecoration(
+                  labelText: 'Nama Store',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Nama store tidak boleh kosong';
+                  }
+                  return null;
+                },
               ),
-              onChanged: (value) {
-                newLanguageName = value;
-              },
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              decoration: const InputDecoration(
-                labelText: 'Language Code',
-                hintText: 'Enter language code (e.g., en, id)',
+              const SizedBox(height: 16),
+
+              // Form field untuk kode
+              TextFormField(
+                controller: codeController,
+                decoration: const InputDecoration(
+                  labelText: 'Kode Store',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Kode store tidak boleh kosong';
+                  }
+                  return null;
+                },
               ),
-              onChanged: (value) {
-                newLanguageCode = value;
-              },
-            ),
-          ],
+              const SizedBox(height: 16),
+
+              // Upload image button
+              ElevatedButton.icon(
+                onPressed: () async {
+                  // Implementasi pick image
+                  // Contoh menggunakan image_picker
+                  // final ImagePicker picker = ImagePicker();
+                  // final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+                  // if (image != null) {
+                  //   selectedImagePath = image.path;
+                  // }
+                },
+                icon: const Icon(Icons.image),
+                label: const Text('Pilih Gambar'),
+              ),
+            ],
+          ),
         ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              if (newLanguageName.isNotEmpty && newLanguageCode.isNotEmpty) {
-                // setState(() {
-                //   languages.add(Language(
-                //     name: newLanguageName,
-                //     code: newLanguageCode,
-                //     isSelected: false,
-                //   ));
-                // });
-                Navigator.of(context).pop();
-              }
-            },
-            child: const Text('Add'),
-          ),
-        ],
-      );
-    },
+      ),
+      actions: [
+        // Tombol batal
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Batal'),
+        ),
+
+        // Tombol simpan
+        ElevatedButton(
+          onPressed: () {
+            if (formKey.currentState!.validate()) {
+              // Buat objek store baru
+              final newStore = StoreModel(
+                id: DateTime.now().millisecondsSinceEpoch, // Contoh generate ID
+                name: nameController.text,
+                code: codeController.text,
+                isSelected: false,
+                image: selectedImagePath,
+              );
+              Get.find<StoresController>().addStore(newStore);
+
+              // Tutup dialog dan kirim data store baru
+              Navigator.pop(context, newStore);
+            }
+          },
+          child: const Text('Simpan'),
+        ),
+      ],
+    ),
   );
 }

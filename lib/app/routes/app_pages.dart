@@ -1,4 +1,5 @@
 import 'package:enzet/app/data/middlewares/guest_middleware.dart';
+import 'package:enzet/app/data/middlewares/store_middleware.dart';
 import 'package:get/get.dart';
 
 import '../data/middlewares/auth_middleware.dart';
@@ -34,37 +35,37 @@ class AppPages {
       name: _Paths.HOME,
       page: () => const HomeView(),
       binding: HomeBinding(),
-      middlewares: [AuthMiddleware()],
+      middlewares: [AuthMiddleware(), StoreMiddleware()],
     ),
     GetPage(
       name: _Paths.MAIN,
       page: () => const MainView(),
       binding: MainBinding(),
-      middlewares: [AuthMiddleware()],
+      middlewares: [AuthMiddleware(), StoreMiddleware()],
     ),
     GetPage(
       name: _Paths.INSERT,
       page: () => const InsertView(),
       binding: InsertBinding(),
-      middlewares: [AuthMiddleware()],
+      middlewares: [AuthMiddleware(), StoreMiddleware()],
     ),
     GetPage(
       name: _Paths.PRODUCTS,
       page: () => const ProductsView(),
       binding: ProductsBinding(),
-      middlewares: [AuthMiddleware()],
+      middlewares: [AuthMiddleware(), StoreMiddleware()],
     ),
     GetPage(
       name: _Paths.LISTS,
       page: () => const ListsView(),
       binding: ListsBinding(),
-      middlewares: [AuthMiddleware()],
+      middlewares: [AuthMiddleware(), StoreMiddleware()],
     ),
     GetPage(
       name: _Paths.HISTORY,
       page: () => const HistoryView(),
       binding: HistoryBinding(),
-      middlewares: [AuthMiddleware()],
+      middlewares: [AuthMiddleware(), StoreMiddleware()],
     ),
     GetPage(
       name: _Paths.LOGIN,

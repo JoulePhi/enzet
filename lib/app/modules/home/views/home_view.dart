@@ -99,21 +99,21 @@ class HomeView extends GetView<HomeController> {
               ],
             ),
             verticalSpace(AppStyle.defaultPadding),
-            const ProductCard(
-                image: 'assets/images/product1.webp',
-                title: 'Dompet Kulit',
-                total: '20',
-                code: 'NKC644'),
-            const ProductCard(
-                image: 'assets/images/product1.webp',
-                title: 'Dompet Kulit',
-                total: '20',
-                code: 'NKC644'),
-            const ProductCard(
-                image: 'assets/images/product1.webp',
-                title: 'Dompet Kulit',
-                total: '20',
-                code: 'NKC644'),
+            // const ProductCard(
+            //     image: 'assets/images/product1.webp',
+            //     title: 'Dompet Kulit',
+            //     total: '20',
+            //     code: 'NKC644'),
+            // const ProductCard(
+            //     image: 'assets/images/product1.webp',
+            //     title: 'Dompet Kulit',
+            //     total: '20',
+            //     code: 'NKC644'),
+            // const ProductCard(
+            //     image: 'assets/images/product1.webp',
+            //     title: 'Dompet Kulit',
+            //     total: '20',
+            //     code: 'NKC644'),
           ],
         ),
       ),

@@ -1,17 +1,13 @@
+import 'package:enzet/app/data/models/item_model.dart';
 import 'package:enzet/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard(
-      {super.key,
-      required this.image,
-      required this.title,
-      required this.total,
-      required this.code});
-  final String image;
-  final String title;
-  final String total;
-  final String code;
+  const ProductCard({
+    super.key,
+    required this.item,
+  });
+  final ItemModel item;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,7 +34,7 @@ class ProductCard extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               image: DecorationImage(
-                image: AssetImage(image),
+                image: AssetImage('assets/images/product1.webp'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -48,7 +44,7 @@ class ProductCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                title,
+                item.name,
                 style: AppStyle.textBlack.copyWith(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -56,7 +52,7 @@ class ProductCard extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                code,
+                item.code,
                 style: AppStyle.textGrey.copyWith(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
@@ -66,7 +62,7 @@ class ProductCard extends StatelessWidget {
           ),
           const Spacer(),
           Text(
-            '$total x',
+            '${item.price} x',
             style: AppStyle.textLightBlack.copyWith(
               fontSize: 14,
               fontWeight: FontWeight.bold,
