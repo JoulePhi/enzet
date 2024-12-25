@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "603935617677",
+    "project_id": "enzet-invoice",
+    "storage_bucket": "enzet-invoice.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:603935617677:android:d9221a4a5ad3cbba38a8c4",
+        "android_client_info": {
+          "package_name": "com.enzet.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXLveZtkzajs5vzbWoS05XlpIaw-sC6dk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:603935617677:android:8ed894e6cd8d7ae838a8c4",
+        "android_client_info": {
+          "package_name": "com.example.enzet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXLveZtkzajs5vzbWoS05XlpIaw-sC6dk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
