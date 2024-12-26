@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:enzet/app/modules/stores/model/store_model.dart';
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -58,10 +59,12 @@ class StoreCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: isSelected ? Colors.blue.withOpacity(0.1) : Colors.white,
+          color: isSelected
+              ? AppStyle.robinsEggBlue.withOpacity(0.1)
+              : Colors.white,
           borderRadius: BorderRadius.circular(15),
           border: Border.all(
-            color: isSelected ? Colors.blue : Colors.grey.shade300,
+            color: isSelected ? AppStyle.robinsEggBlue : Colors.grey.shade300,
             width: 2,
           ),
           boxShadow: [
@@ -84,16 +87,16 @@ class StoreCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     store.image != null && store.image!.isNotEmpty
-                        ? Image.network(
-                            store.image!,
-                            height: 80,
-                            width: 80,
+                        ? CachedNetworkImage(
+                            imageUrl: store.image!,
+                            height: 50,
+                            width: 50,
                             fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
+                            errorWidget: (context, error, stackTrace) {
                               return Image.asset(
-                                'assets/images/logoipsum.png', // Gambar placeholder jika gagal load
-                                height: 80,
-                                width: 80,
+                                'assets/images/logoipsum.png',
+                                height: 50,
+                                width: 50,
                                 fit: BoxFit.cover,
                               );
                             },
@@ -110,7 +113,9 @@ class StoreCard extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: isSelected ? Colors.blue : Colors.black87,
+                        color: isSelected
+                            ? AppStyle.robinsEggBlue
+                            : Colors.black87,
                       ),
                     ),
                   ],
@@ -123,7 +128,7 @@ class StoreCard extends StatelessWidget {
                 right: 8,
                 child: Icon(
                   Icons.check_circle,
-                  color: Colors.blue,
+                  color: AppStyle.robinsEggBlue,
                   size: 24,
                 ),
               ),

@@ -4,6 +4,7 @@ import 'package:enzet/app/data/models/invoice_model.dart';
 import 'package:enzet/app/data/models/item_model.dart';
 import 'package:enzet/app/data/services/pdf_service.dart';
 import 'package:enzet/app/data/utils/utils.dart';
+import 'package:enzet/app/modules/stores/controllers/stores_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,12 +28,14 @@ class InvoiceController extends GetxController {
   Future<void> saveItems() async {
     final prefs = await SharedPreferences.getInstance();
     final itemsJson = jsonEncode(items.map((item) => item.toJson()).toList());
-    await prefs.setString('invoice_items', itemsJson);
+    final int storeId = Get.find<StoresController>().selectedStore.value!.id;
+    await prefs.setString('invoice_items/$storeId', itemsJson);
   }
 
   Future<void> loadItems() async {
     final prefs = await SharedPreferences.getInstance();
-    final itemsJson = prefs.getString('invoice_items');
+    final int storeId = Get.find<StoresController>().selectedStore.value!.id;
+    final itemsJson = prefs.getString('invoice_items/$storeId');
     if (itemsJson != null) {
       final List<dynamic> itemList = jsonDecode(itemsJson);
       items.value = itemList.map((item) => InvoiceItem.fromJson(item)).toList();

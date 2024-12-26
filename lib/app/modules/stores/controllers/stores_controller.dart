@@ -23,27 +23,4 @@ class StoresController extends GetxController {
       stores.add(StoreModel(id: 0, name: 'add', code: '-', isSelected: false));
     });
   }
-
-  Future<void> addStore(StoreModel store) async {
-    try {
-      addStoreLoading.value = true;
-      await _repository.addStore(store);
-    } catch (e) {
-      errorSnackbar(e.toString());
-    } finally {
-      addStoreLoading.value = false;
-    }
-  }
-
-  Future<void> updateStore(StoreModel store) async {
-    try {
-      addStoreLoading.value = true;
-      await _repository.updateStore(store);
-      selectedStore.value = null;
-    } catch (e) {
-      errorSnackbar(e.toString());
-    } finally {
-      addStoreLoading.value = false;
-    }
-  }
 }

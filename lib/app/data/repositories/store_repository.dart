@@ -53,4 +53,20 @@ class StoreRepository {
     await ref.putFile(File(filePath));
     return await ref.getDownloadURL();
   }
+
+  Future<void> deleteStore(StoreModel store) async {
+    if (store.documentId.isNotEmpty) {
+      await _firestore.collection('stores').doc(store.documentId).delete();
+    } else {
+      throw Exception('Document ID is null. Cannot delete store.');
+    }
+  }
+
+  Future<void> deleteImage(String imageUrl) async {
+    if (imageUrl.isNotEmpty) {
+      await _storage.refFromURL(imageUrl).delete();
+    } else {
+      throw Exception('Image URL is empty. Cannot delete image.');
+    }
+  }
 }

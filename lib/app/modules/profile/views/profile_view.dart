@@ -1,4 +1,6 @@
 import 'package:enzet/app/data/contollers/auth_controller.dart';
+import 'package:enzet/app/modules/stores/controllers/stores_controller.dart';
+import 'package:enzet/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -63,27 +65,14 @@ class ProfileView extends GetView<ProfileController> {
                         ],
                       ),
                       const SizedBox(height: 30),
-
-                      // Menu Items
                       _buildMenuItem(
-                        icon: Icons.person_outline,
-                        title: 'User Profile',
-                        onTap: () {},
-                      ),
-                      _buildMenuItem(
-                        icon: Icons.lock_outline,
-                        title: 'Change Password',
-                        onTap: () {},
-                      ),
-                      _buildMenuItem(
-                        icon: Icons.help_outline,
-                        title: 'FAQs',
-                        onTap: () {},
-                      ),
-                      _buildMenuItem(
-                        icon: Icons.notifications_none,
-                        title: 'Push Notification',
-                        onTap: () {},
+                        icon: Icons.store,
+                        title: 'Change Store',
+                        onTap: () {
+                          Get.find<StoresController>().selectedStore.value =
+                              null;
+                          Get.offNamed(Routes.STORES);
+                        },
                       ),
                       _buildMenuItem(
                         icon: Icons.logout,
@@ -94,35 +83,6 @@ class ProfileView extends GetView<ProfileController> {
                       ),
 
                       const SizedBox(height: 40),
-
-                      // Help Section
-                      Container(
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[100],
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Column(
-                          children: [
-                            Text(
-                              'If you have any other query you can reach out to us.',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.grey[600]),
-                            ),
-                            const SizedBox(height: 10),
-                            TextButton(
-                              onPressed: () {},
-                              child: const Text(
-                                'WhatsApp Us',
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                     ],
                   ),
                 ),

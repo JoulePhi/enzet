@@ -24,6 +24,9 @@ class NavigationController extends GetxController {
       case 2:
         Get.offNamed('/insert', id: 1);
         break;
+      case 3:
+        Get.offNamed('/profile', id: 1);
+        break;
       default:
         Get.offNamed('/home', id: 1);
     }

@@ -1,5 +1,6 @@
 import 'package:enzet/app/data/utils/utils.dart';
 import 'package:enzet/app/modules/stores/controllers/stores_controller.dart';
+import 'package:enzet/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:enzet/app/data/models/invoice_model.dart';
@@ -12,7 +13,17 @@ class InvoiceView extends GetView<InvoiceController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Buat Invoice')),
+      appBar: AppBar(
+        title: Text(
+          'Buat Invoice',
+          style: AppStyle.textBlack.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.black),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -191,6 +202,9 @@ class InvoiceView extends GetView<InvoiceController> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppStyle.robinsEggBlue,
+                    ),
                     onPressed: () {
                       if (controller.items.isEmpty) {
                         errorSnackbar("Item tidak boleh kosong");
@@ -225,7 +239,13 @@ class InvoiceView extends GetView<InvoiceController> {
                       padding: const EdgeInsets.all(16.0),
                       child: controller.isLoadding.value
                           ? const CircularProgressIndicator()
-                          : const Text('Buat Invoice'),
+                          : Text(
+                              'Buat Invoice',
+                              style: AppStyle.textWhite.copyWith(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                     ),
                   ),
                 ),

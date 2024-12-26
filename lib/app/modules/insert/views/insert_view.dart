@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:enzet/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -11,7 +12,15 @@ class InsertView extends GetView<InsertController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(controller.item == null ? 'Tambah Item' : 'Edit Item'),
+        title: Text(
+          controller.item == null ? 'Tambah Item' : 'Edit Item',
+          style: AppStyle.textBlack.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -281,6 +290,9 @@ class InsertView extends GetView<InsertController> {
 
                   // Upload Button
                   ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppStyle.tarawera,
+                    ),
                     onPressed: controller.pickImages,
                     icon: const Icon(Icons.add_photo_alternate),
                     label: const Text('Tambah Foto'),
@@ -292,9 +304,17 @@ class InsertView extends GetView<InsertController> {
 
               // Image URLs
               ListTile(
-                title: const Text('Status'),
+                title: Text(
+                  'Status',
+                  style: AppStyle.textBlack.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 trailing: Obx(
                   () => Switch(
+                    activeColor: Colors.white,
+                    activeTrackColor: AppStyle.halfBaked,
+                    inactiveTrackColor: AppStyle.tarawera,
                     value: controller.isActive.value,
                     onChanged: (value) => controller.isActive.value = value,
                   ),
@@ -305,6 +325,9 @@ class InsertView extends GetView<InsertController> {
 
               Obx(
                 () => ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppStyle.robinsEggBlue,
+                  ),
                   onPressed: controller.submitForm,
                   child: controller.isLoading.value
                       ? const SizedBox(
@@ -314,7 +337,13 @@ class InsertView extends GetView<InsertController> {
                             valueColor: AlwaysStoppedAnimation(Colors.white),
                           ),
                         )
-                      : const Text('Simpan'),
+                      : Text(
+                          'Simpan',
+                          style: AppStyle.textWhite.copyWith(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                 ),
               ),
             ],

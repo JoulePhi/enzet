@@ -1,10 +1,11 @@
 import 'package:enzet/app/modules/stores/model/store_model.dart';
+import 'package:enzet/app/modules/stores/views/add_or_edit_store.dart';
 import 'package:enzet/app/modules/stores/widgets/store_card.dart';
 import 'package:enzet/app/routes/app_pages.dart';
+import 'package:enzet/theme/styles.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../controllers/stores_controller.dart';
 
@@ -14,8 +15,15 @@ class StoresView extends GetView<StoresController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pilih Toko'),
+        title: Text(
+          'Pilih Toko',
+          style: AppStyle.textWhite.copyWith(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         elevation: 0,
+        backgroundColor: AppStyle.robinsEggBlue,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -61,7 +69,8 @@ class StoresView extends GetView<StoresController> {
                                     if (controller.stores[index].name ==
                                             'add' &&
                                         controller.stores[index].code == '-') {
-                                      showAddOrEditStoreDialog(context);
+                                      controller.selectedStore.value = null;
+                                      showAddOrEditStoreDialog(context, null);
                                     } else {
                                       if (controller.selectedStore.value ==
                                           null) {
@@ -114,8 +123,15 @@ class StoresView extends GetView<StoresController> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
+                      backgroundColor: AppStyle.robinsEggBlue,
                     ),
-                    child: const Text('Continue'),
+                    child: Text(
+                      'Continue',
+                      style: AppStyle.textWhite.copyWith(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -126,6 +142,10 @@ class StoresView extends GetView<StoresController> {
                 right: controller.selectedStore.value != null ? 20 : -100,
                 duration: const Duration(milliseconds: 100),
                 child: IconButton.filled(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          WidgetStateProperty.all(AppStyle.tarawera),
+                    ),
                     onPressed: () {
                       if (controller.selectedStore.value != null) {
                         showAddOrEditStoreDialog(
@@ -144,107 +164,9 @@ class StoresView extends GetView<StoresController> {
 
 Future<void> showAddOrEditStoreDialog(BuildContext context,
     [StoreModel? store]) {
-  // Controller untuk form
-  final nameController = TextEditingController();
-  final codeController = TextEditingController();
-  final formKey = GlobalKey<FormState>();
-  String? selectedImagePath;
-
-  if (store != null) {
-    nameController.text = store.name;
-    codeController.text = store.code;
-    selectedImagePath = store.image;
-  }
-
-  return showDialog(
+  return showModalBottomSheet(
     context: context,
-    builder: (context) => AlertDialog(
-      title: Text(store != null ? 'Edit Store' : 'Tambah Store'),
-      content: Form(
-        key: formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Form field untuk nama
-              TextFormField(
-                controller: nameController,
-                decoration: const InputDecoration(
-                  labelText: 'Nama Store',
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Nama store tidak boleh kosong';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-
-              // Form field untuk kode
-              TextFormField(
-                controller: codeController,
-                decoration: const InputDecoration(
-                  labelText: 'Kode Store',
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Kode store tidak boleh kosong';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-
-              // Upload image button
-              ElevatedButton.icon(
-                onPressed: () async {
-                  // Implementasi pick image
-                  // Contoh menggunakan image_picker
-                  final ImagePicker picker = ImagePicker();
-                  final XFile? image =
-                      await picker.pickImage(source: ImageSource.gallery);
-                  if (image != null) {
-                    selectedImagePath = image.path;
-                  }
-                },
-                icon: const Icon(Icons.image),
-                label: const Text('Pilih Gambar'),
-              ),
-            ],
-          ),
-        ),
-      ),
-      actions: [
-        // Tombol batal
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('Batal'),
-        ),
-
-        // Tombol simpan
-        ElevatedButton(
-          onPressed: () {
-            if (formKey.currentState!.validate()) {
-              // Buat objek store baru
-              final newStore = StoreModel(
-                id: DateTime.now().millisecondsSinceEpoch, // Contoh generate ID
-                name: nameController.text,
-                code: codeController.text,
-                isSelected: false,
-                image: selectedImagePath,
-              );
-              Get.find<StoresController>().addStore(newStore);
-
-              // Tutup dialog dan kirim data store baru
-              Navigator.pop(context, newStore);
-            }
-          },
-          child: const Text('Simpan'),
-        ),
-      ],
-    ),
+    isScrollControlled: true,
+    builder: (context) => AddOrEdit(store: store),
   );
 }

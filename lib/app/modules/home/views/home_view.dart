@@ -1,8 +1,8 @@
 import 'package:enzet/app/modules/home/views/widgets/home_card.dart';
-import 'package:enzet/app/data/widgets/product_card.dart';
 import 'package:enzet/theme/styles.dart';
 import 'package:enzet/theme/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:get/get.dart';
 
@@ -12,6 +12,8 @@ class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
   @override
   Widget build(BuildContext context) {
+    final String today = DateFormat('EEEE').format(DateTime.now());
+    final String date = DateFormat('d MMMM').format(DateTime.now());
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(
@@ -29,14 +31,14 @@ class HomeView extends GetView<HomeController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Monday',
+                      today,
                       style: AppStyle.textDarkGrey.copyWith(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                     Text(
-                      '25 October',
+                      date,
                       style: AppStyle.textBlack.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -70,7 +72,7 @@ class HomeView extends GetView<HomeController> {
                     title: 'Total Products',
                     value: controller.totalItem.value.toString(),
                   ),
-                   HomeCard(
+                  HomeCard(
                     colors: const [
                       Color(0xffFFA0BC),
                       Color(0xffFF1B5E),

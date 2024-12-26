@@ -4,6 +4,7 @@ import 'package:enzet/app/data/models/invoice_model.dart';
 import 'package:enzet/app/data/models/item_model.dart';
 import 'package:enzet/app/data/utils/utils.dart';
 import 'package:enzet/app/modules/invoice/controllers/invoice_controller.dart';
+import 'package:enzet/app/modules/stores/controllers/stores_controller.dart';
 import 'package:enzet/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,7 +47,8 @@ class DetailController extends GetxController {
       } else {
         items.add(item);
       }
-      await prefs.setString('invoice_items',
+      final int storeId = Get.find<StoresController>().selectedStore.value!.id;
+      await prefs.setString('invoice_items/$storeId',
           jsonEncode(items.map((item) => item.toJson()).toList()));
     }
   }
