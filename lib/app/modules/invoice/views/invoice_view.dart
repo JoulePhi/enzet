@@ -235,17 +235,19 @@ class InvoiceView extends GetView<InvoiceController> {
                         controller.generatePdf(invoice);
                       }
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: controller.isLoadding.value
-                          ? const CircularProgressIndicator()
-                          : Text(
-                              'Buat Invoice',
-                              style: AppStyle.textWhite.copyWith(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                    child: Obx(
+                      () => Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: controller.isLoadding.value
+                            ? const CircularProgressIndicator()
+                            : Text(
+                                'Buat Invoice',
+                                style: AppStyle.textWhite.copyWith(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
+                      ),
                     ),
                   ),
                 ),

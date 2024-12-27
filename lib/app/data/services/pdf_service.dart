@@ -1,18 +1,21 @@
-import 'dart:io';
 import 'package:enzet/app/data/models/invoice_model.dart';
 import 'package:enzet/app/data/utils/formatter.dart';
+import 'package:enzet/app/modules/stores/controllers/stores_controller.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
 class PdfService {
-  Future<void> generatePurchaseOrder({required Invoice invoice}) async {
+  Future<bool> generatePurchaseOrder(
+      {required Invoice invoice, required Function callback}) async {
     final pdf = pw.Document();
 
     final check = await imageFromAssetBundle('assets/images/check.png');
     final checkMini =
         await imageFromAssetBundle('assets/images/check_mini.png');
+    final store = Get.find<StoresController>().selectedStore.value!;
 
     for (var item in invoice.items) {
       final image = await networkImage(item.item.imageUrls.first);
@@ -29,7 +32,7 @@ class PdfService {
                   mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                   children: [
                     pw.Text(
-                      'Purchase Order eNZet',
+                      'Purchase Order ${store.name}',
                       style: pw.TextStyle(
                         fontSize: 20,
                         fontWeight: pw.FontWeight.bold,
@@ -65,7 +68,7 @@ class PdfService {
                                 'Printing', item.item.printing ?? '-'),
                             _buildTableRow('Jumlah', '${item.quantity} Pcs',
                                 alternate: true),
-                            _buildTableRow('Harga',
+                            _buildTableRow('Harga / Pcs',
                                 Formatter.formatToRupiah(item.item.price)),
                           ],
                         ),
@@ -130,8 +133,12 @@ class PdfService {
     }
 
     // Print or save the PDF
-    await Printing.layoutPdf(
-      onLayout: (PdfPageFormat format) async => pdf.save(),
+    return await Printing.layoutPdf(
+      onLayout: (PdfPageFormat format) async {
+        final pdfBytes = pdf.save();
+        await callback();
+        return pdfBytes;
+      },
     );
   }
 

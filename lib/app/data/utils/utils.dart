@@ -1,3 +1,4 @@
+import 'package:enzet/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -6,7 +7,7 @@ successSnackbar(String message) {
     'Sukses',
     message,
     snackPosition: SnackPosition.TOP,
-    backgroundColor: Colors.green,
+    backgroundColor: AppStyle.robinsEggBlue,
     colorText: Colors.white,
   );
 }
@@ -16,7 +17,7 @@ errorSnackbar(String message) {
     'Error',
     message,
     snackPosition: SnackPosition.TOP,
-    backgroundColor: Colors.red,
+    backgroundColor: AppStyle.error,
     colorText: Colors.white,
   );
 }

@@ -1,5 +1,4 @@
 import 'package:enzet/app/data/repositories/store_repository.dart';
-import 'package:enzet/app/data/utils/utils.dart';
 import 'package:enzet/app/modules/stores/model/store_model.dart';
 import 'package:get/get.dart';
 

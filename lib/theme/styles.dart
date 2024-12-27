@@ -17,6 +17,7 @@ class AppStyle {
   static const Color xanadu = Color(0xFF6C8170);
   static const Color corduroy = Color(0xFF64746D);
   static const Color summerGreen = Color(0xFF98BCAC);
+  static const Color error = Color(0xFFee5253);
   static const double defaultPadding = 16.0;
   static const double mediumPadding = 12.0;
   static const double largePadding = 20.0;

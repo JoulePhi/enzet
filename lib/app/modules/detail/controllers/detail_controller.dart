@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:enzet/app/data/models/invoice_model.dart';
 import 'package:enzet/app/data/models/item_model.dart';
 import 'package:enzet/app/data/utils/utils.dart';
-import 'package:enzet/app/modules/invoice/controllers/invoice_controller.dart';
 import 'package:enzet/app/modules/stores/controllers/stores_controller.dart';
 import 'package:enzet/app/routes/app_pages.dart';
 import 'package:get/get.dart';
@@ -35,7 +34,8 @@ class DetailController extends GetxController {
 
   void addItem(InvoiceItem item) async {
     final prefs = await SharedPreferences.getInstance();
-    final itemsJson = prefs.getString('invoice_items');
+    final storeId = Get.find<StoresController>().selectedStore.value!.id;
+    final itemsJson = prefs.getString('invoice_items/$storeId');
     if (itemsJson != null) {
       final List<dynamic> itemList = jsonDecode(itemsJson);
       final items = itemList.map((item) => InvoiceItem.fromJson(item)).toList();
@@ -50,6 +50,9 @@ class DetailController extends GetxController {
       final int storeId = Get.find<StoresController>().selectedStore.value!.id;
       await prefs.setString('invoice_items/$storeId',
           jsonEncode(items.map((item) => item.toJson()).toList()));
+    } else {
+      await prefs.setString(
+          'invoice_items/$storeId', jsonEncode([item.toJson()]));
     }
   }
 

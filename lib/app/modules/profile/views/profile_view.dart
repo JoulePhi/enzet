@@ -1,6 +1,7 @@
 import 'package:enzet/app/data/contollers/auth_controller.dart';
 import 'package:enzet/app/modules/stores/controllers/stores_controller.dart';
 import 'package:enzet/app/routes/app_pages.dart';
+import 'package:enzet/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -22,49 +23,56 @@ class ProfileView extends GetView<ProfileController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Settings',
-                        style: TextStyle(
-                          fontSize: 28,
+                      Text(
+                        'Profile',
+                        style: AppStyle.textBlack.copyWith(
+                          fontSize: 24,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 20),
 
                       // Profile Header
-                      const Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 30,
-                            backgroundImage:
-                                AssetImage('assets/images/logoipsum.png'),
-                          ),
-                          SizedBox(width: 15),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Welcome',
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                Text(
-                                  'Mr. John Doe',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Icon(Icons.arrow_forward_ios, color: Colors.blue),
-                        ],
+                      // const Row(
+                      //   children: [
+                      //     CircleAvatar(
+                      //       radius: 30,
+                      //       backgroundImage:
+                      //           AssetImage('assets/images/logoipsum.png'),
+                      //     ),
+                      //     SizedBox(width: 15),
+                      //     Expanded(
+                      //       child: Column(
+                      //         crossAxisAlignment: CrossAxisAlignment.start,
+                      //         children: [
+                      //           Text(
+                      //             'Welcome',
+                      //             style: TextStyle(
+                      //               color: Colors.grey,
+                      //               fontSize: 14,
+                      //             ),
+                      //           ),
+                      //           Text(
+                      //             'Mr. John Doe',
+                      //             style: TextStyle(
+                      //               fontSize: 18,
+                      //               fontWeight: FontWeight.bold,
+                      //             ),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ),
+                      //     Icon(Icons.arrow_forward_ios, color: Colors.blue),
+                      //   ],
+                      // ),
+                      // const SizedBox(height: 30),
+                      _buildMenuItem(
+                        icon: Icons.history,
+                        title: 'History',
+                        onTap: () {
+                          Get.toNamed(Routes.HISTORY);
+                        },
                       ),
-                      const SizedBox(height: 30),
                       _buildMenuItem(
                         icon: Icons.store,
                         title: 'Change Store',

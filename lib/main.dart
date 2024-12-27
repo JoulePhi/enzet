@@ -13,7 +13,7 @@ void main() async {
   );
   runApp(
     GetMaterialApp(
-      title: "Enzet",
+      title: "EasyBill",
       initialRoute: AppPages.INITIAL,
       initialBinding: InitialBinding(),
       theme: AppTheme.lightTheme,

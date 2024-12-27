@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:enzet/app/data/models/invoice_model.dart';
 import 'package:enzet/app/data/models/item_model.dart';
+import 'package:enzet/app/data/repositories/invoice_repository.dart';
 import 'package:enzet/app/data/services/pdf_service.dart';
 import 'package:enzet/app/data/utils/utils.dart';
 import 'package:enzet/app/modules/stores/controllers/stores_controller.dart';
+import 'package:enzet/theme/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,6 +17,7 @@ class InvoiceController extends GetxController {
   final senderController = TextEditingController();
   final noteController = TextEditingController();
   final messageController = TextEditingController();
+  final _invoiceRepository = InvoiceRepository();
   final qc1 = false.obs;
   final qc2 = false.obs;
   final qc3 = false.obs;
@@ -30,6 +33,12 @@ class InvoiceController extends GetxController {
     final itemsJson = jsonEncode(items.map((item) => item.toJson()).toList());
     final int storeId = Get.find<StoresController>().selectedStore.value!.id;
     await prefs.setString('invoice_items/$storeId', itemsJson);
+  }
+
+  Future<void> clearItems() async {
+    final prefs = await SharedPreferences.getInstance();
+    final int storeId = Get.find<StoresController>().selectedStore.value!.id;
+    await prefs.remove('invoice_items/$storeId');
   }
 
   Future<void> loadItems() async {
@@ -89,6 +98,8 @@ class InvoiceController extends GetxController {
       // show confirmation dialog
       if (!fromDetail.value) {
         Get.defaultDialog(
+          backgroundColor: Colors.white,
+          buttonColor: AppStyle.robinsEggBlue,
           title: 'Konfirmasi',
           middleText: 'Apakah Anda yakin ingin menghapus item ini?',
           textConfirm: 'Ya',
@@ -167,7 +178,22 @@ class InvoiceController extends GetxController {
   Future<void> generatePdf(Invoice invoice) async {
     try {
       isLoadding.value = true;
-      pdfService.generatePurchaseOrder(invoice: invoice);
+      pdfService
+          .generatePurchaseOrder(invoice: invoice, callback: () async {})
+          .then((e) async {
+        if (e) {
+          await _invoiceRepository.addInvoice(
+              Get.find<StoresController>()
+                  .selectedStore
+                  .value!
+                  .documentId
+                  .toString(),
+              invoice);
+          clearForm();
+          await clearItems();
+          successSnackbar('PDF berhasil disimpan');
+        }
+      });
     } catch (e) {
       errorSnackbar(e.toString());
     } finally {

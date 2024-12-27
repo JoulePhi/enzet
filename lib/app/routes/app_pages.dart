@@ -89,7 +89,7 @@ class AppPages {
       page: () => const ProfileView(),
       binding: ProfileBinding(),
       transition: Transition.cupertino,
-      middlewares: [AuthMiddleware()],
+      middlewares: [AuthMiddleware(), StoreMiddleware()],
     ),
     GetPage(
       name: _Paths.STORES,

@@ -2,11 +2,8 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enzet/app/data/models/item_model.dart';
-import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as path;
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:googleapis/drive/v3.dart' as drive;
-import 'package:googleapis_auth/auth_io.dart';
 
 class ItemRepository {
   final int limit = 20;

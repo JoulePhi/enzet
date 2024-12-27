@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:enzet/app/data/models/item_model.dart';
 import 'package:enzet/app/data/utils/formatter.dart';
 import 'package:enzet/app/data/utils/utils.dart';
+import 'package:enzet/theme/styles.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -26,7 +27,7 @@ class DetailView extends GetView<DetailController> {
             SliverAppBar(
               expandedHeight: 200,
               pinned: true,
-              foregroundColor: Colors.blue,
+              foregroundColor: AppStyle.robinsEggBlue,
               actions: [
                 IconButton(
                   icon: const Icon(Icons.edit),
@@ -121,7 +122,7 @@ class DetailView extends GetView<DetailController> {
                       Formatter.formatToRupiah(product.price),
                       style: const TextStyle(
                         fontSize: 20,
-                        color: Colors.blue,
+                        color: AppStyle.robinsEggBlue,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -169,15 +170,15 @@ class DetailView extends GetView<DetailController> {
               child: ElevatedButton(
                 onPressed: () => controller.buyNow(),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
+                  backgroundColor: AppStyle.robinsEggBlue,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   'Cetak Sekarang',
-                  style: TextStyle(
+                  style: AppStyle.textWhite.copyWith(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),

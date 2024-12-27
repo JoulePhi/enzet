@@ -2,7 +2,6 @@ import 'package:enzet/app/data/utils/utils.dart';
 import 'package:enzet/app/routes/app_pages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
