@@ -6,8 +6,13 @@ import 'package:get/get.dart';
 class StoreMiddleware extends GetMiddleware {
   @override
   RouteSettings? redirect(String? route) {
+    if (!Get.isRegistered<StoresController>()) {
+      Get.offAllNamed(Routes.STORES);
+    }
+
     final storeController = Get.find<StoresController>();
     final store = storeController.selectedStore;
+    print('StoreMiddleware: ${store.value}');
     if (store.value == null) {
       Get.offAllNamed(Routes.STORES);
     }
